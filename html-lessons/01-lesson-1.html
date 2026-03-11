@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 1: Build Your AI Assistant — Agentlify Course</title>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background-color: #F7F3EA;
+      color: #0F2A1E;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 400;
+      line-height: 1.7;
+    }
+    .container { max-width: 800px; margin: 0 auto; padding: 40px 24px; }
+    
+    /* Header */
+    .header {
+      background-color: #0F2A1E;
+      padding: 50px 24px 40px;
+      text-align: center;
+      position: relative;
+    }
+    .header::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: #C8A24A;
+    }
+    .lesson-badge {
+      display: inline-block;
+      background: #C8A24A;
+      color: #0F2A1E;
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+    }
+    .header h1 {
+      font-family: 'Oswald', sans-serif;
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #F7F3EA;
+      line-height: 1.2;
+      margin-bottom: 12px;
+    }
+    .header-meta {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+    .meta-item {
+      font-size: 0.85rem;
+      color: rgba(247, 243, 234, 0.7);
+    }
+    .meta-item strong {
+      color: #C8A24A;
+      font-weight: 600;
+    }
+    
+    /* Content Cards */
+    .card {
+      background: #FFFFFF;
+      border: 2px solid #0F2A1E;
+      border-radius: 8px;
+      padding: 36px;
+      margin-bottom: 28px;
+      box-shadow: 4px 4px 0 #0F2A1E;
+    }
+    .card h2 {
+      font-family: 'Oswald', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #0F2A1E;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid #C8A24A;
+    }
+    .card h3 {
+      font-family: 'Oswald', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #0F2A1E;
+      margin: 24px 0 12px;
+    }
+    .card p {
+      font-size: 0.95rem;
+      margin-bottom: 16px;
+      color: #0F2A1E;
+    }
+    .card strong {
+      font-weight: 600;
+    }
+    .card ul, .card ol {
+      padding-left: 20px;
+      margin-bottom: 16px;
+    }
+    .card li {
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+    }
+    
+    /* Code Blocks */
+    .code-block {
+      background: #0F2A1E;
+      color: #F7F3EA;
+      padding: 20px;
+      border-radius: 6px;
+      margin: 20px 0;
+      overflow-x: auto;
+      border-left: 4px solid #C8A24A;
+    }
+    .code-block code {
+      font-family: 'Courier New', monospace;
+      font-size: 0.9rem;
+      color: #C8A24A;
+    }
+    
+    /* Highlight Box */
+    .highlight {
+      background: rgba(200, 162, 74, 0.1);
+      border-left: 4px solid #C8A24A;
+      padding: 16px 20px;
+      margin: 20px 0;
+      border-radius: 0 6px 6px 0;
+    }
+    .highlight p {
+      margin-bottom: 0;
+      font-size: 0.95rem;
+    }
+    
+    /* 5 Questions */
+    .questions-box {
+      background: #F7F3EA;
+      border: 2px solid #C8A24A;
+      border-radius: 8px;
+      padding: 28px;
+      margin: 24px 0;
+    }
+    .questions-box h4 {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #0F2A1E;
+      margin-bottom: 16px;
+    }
+    .question-item {
+      margin-bottom: 16px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(15, 42, 30, 0.1);
+    }
+    .question-item:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+    .question-number {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: #C8A24A;
+      margin-bottom: 6px;
+    }
+    
+    /* CTA Button */
+    .cta-button {
+      display: inline-block;
+      background: #C8A24A;
+      color: #0F2A1E;
+      font-family: 'Oswald', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-decoration: none;
+      padding: 18px 40px;
+      border-radius: 4px;
+      border: 2px solid #C8A24A;
+      transition: all 0.2s ease;
+      text-align: center;
+      width: 100%;
+      max-width: 500px;
+      margin: 20px auto;
+      display: block;
+    }
+    .cta-button:hover {
+      background: #0F2A1E;
+      color: #C8A24A;
+      transform: translateY(-2px);
+    }
+    
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 32px 24px;
+      font-size: 0.85rem;
+      color: rgba(15, 42, 30, 0.5);
+      border-top: 1px solid rgba(15, 42, 30, 0.1);
+      margin-top: 40px;
+    }
+    .footer a {
+      color: #C8A24A;
+      text-decoration: none;
+    }
+    
+    /* Responsive */
+    @media (max-width: 640px) {
+      .container { padding: 24px 16px; }
+      .header { padding: 40px 16px 30px; }
+      .card { padding: 28px 20px; }
+      .header-meta { flex-direction: column; gap: 12px; }
+      .cta-button { padding: 16px 28px; font-size: 0.95rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <span class="lesson-badge">Lesson 1 of 4</span>
+    <h1>Build Your AI Assistant</h1>
+    <div class="header-meta">
+      <div class="meta-item"><strong>~10 minutes</strong></div>
+      <div class="meta-item"><strong>Goal:</strong> Qwen knows YOUR business</div>
+      <div class="meta-item"><strong>Win:</strong> Personalized AI, not generic slop</div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <div class="container">
+
+    <!-- Introduction -->
+    <div class="card">
+      <h2>The Foundation: Your QWEN.md File</h2>
+      <p>Here's the thing — most people using AI right now are getting the same generic responses as everyone else. They ask a question, they get a generic answer. They ask again, they get another generic answer.</p>
+      <p><strong>It doesn't have to be that way.</strong></p>
+      <p>In this lesson, you're going to create something called a <strong>QWEN.md file</strong>. Think of it as a cheat sheet that Qwen reads every single time you talk to it. It knows your name, your business, your clients, your voice.</p>
+      <p>Every. Single. Time.</p>
+      <div class="highlight">
+        <p><strong>Think of it like this:</strong> You're onboarding a new team member. Like a discovery call, but instead of a human, it's an AI assistant who never forgets anything you tell it. And it takes 2 minutes instead of 2 weeks.</p>
+      </div>
+    </div>
+
+    <!-- The 5 Questions -->
+    <div class="card">
+      <h2>Step 1: Answer 5 Questions</h2>
+      <p>I'm going to ask you 5 quick questions. Just answer like you're talking to a friend — there's no wrong answers.</p>
+      
+      <div class="questions-box">
+        <h4>The 5 Questions</h4>
+        
+        <div class="question-item">
+          <div class="question-number">Question 1</div>
+          <p><strong>What's your name and what do you do?</strong> Like if someone at a party asked "so what do you do?" — what do you say?</p>
+        </div>
+        
+        <div class="question-item">
+          <div class="question-number">Question 2</div>
+          <p><strong>Who's your dream client?</strong> Who do you love working with? Describe them like you're telling a friend.</p>
+        </div>
+        
+        <div class="question-item">
+          <div class="question-number">Question 3</div>
+          <p><strong>How do you communicate?</strong> Are you casual and funny? Professional and polished? Somewhere in between? What's your vibe?</p>
+        </div>
+        
+        <div class="question-item">
+          <div class="question-number">Question 4</div>
+          <p><strong>What tools and platforms do you use every day?</strong> Social media, apps, software — whatever keeps your business running.</p>
+        </div>
+        
+        <div class="question-item">
+          <div class="question-number">Question 5</div>
+          <p><strong>If this AI assistant could do ONE amazing thing for your business, what would it be?</strong> Don't hold back. Dream big.</p>
+        </div>
+      </div>
+      
+      <h3>Now Create the File</h3>
+      <p>Open Qwen Code and type this command:</p>
+      <div class="code-block">
+        <code>/agentlify:lesson-1</code>
+      </div>
+      <p>Qwen will ask you these 5 questions one at a time. Answer honestly. Then Qwen will create your QWEN.md file automatically.</p>
+    </div>
+
+    <!-- What You Get -->
+    <div class="card">
+      <h2>What's in Your QWEN.md File?</h2>
+      <p>After you answer the 5 questions, Qwen creates a file that looks like this:</p>
+      <div class="code-block">
+        <code># QWEN.md<br><br>## About Me<br>[Your name and what you do]<br><br>## My Ideal Client<br>[Who you serve]<br><br>## My Voice & Style<br>[How you communicate]<br><br>## Tools I Use<br>[Your platforms]<br><br>## What I'm Building Toward<br>[Your dream]</code>
+      </div>
+      <p><strong>From this point forward, every conversation you have with Qwen starts by reading that file.</strong> It knows who you are, what you do, who you serve, and how you talk.</p>
+      <div class="highlight">
+        <p><strong>And here's the thing — this isn't a one-time setup.</strong> You can come back and add more context anytime. More about your offer, your frameworks, your clients, your content style. The more you add, the smarter Qwen gets.</p>
+      </div>
+    </div>
+
+    <!-- The Proof -->
+    <div class="card">
+      <h2>The Proof Moment</h2>
+      <p>Once your QWEN.md is created, test it. Ask Qwen something like:</p>
+      <ul>
+        <li>"Give me 3 content ideas for this week"</li>
+        <li>"Draft an outreach message to a potential client"</li>
+        <li>"Write a welcome email for new coaching clients"</li>
+      </ul>
+      <p>Watch how the response is actually personalized to YOUR business, YOUR clients, YOUR voice. That's because Qwen read your QWEN.md before responding.</p>
+      <p><strong>And it'll do this every single time.</strong></p>
+    </div>
+
+    <!-- Bonus -->
+    <div class="card" style="background: #0F2A1E; border-color: #C8A24A;">
+      <h2 style="color: #C8A24A; border-bottom-color: rgba(200, 162, 74, 0.4);">Bonus Unlocked: 30 AI Prompts</h2>
+      <p style="color: rgba(247, 243, 234, 0.9);">You just built your QWEN.md. Qwen knows your business now. As a bonus, you've unlocked <strong>30 AI Prompts for Coaches & Consultants</strong>.</p>
+      <p style="color: rgba(247, 243, 234, 0.9);">These are copy-paste prompts designed for coaching work. Content ideas, client messages, strategy audits, workshop planning — all personalized to you because of your QWEN.md.</p>
+      <p style="color: rgba(247, 243, 234, 0.9); margin-top: 16px;"><strong>Location:</strong> <code style="color: #C8A24A;">~/.qwen/gifts/30-ai-prompts-for-coaches.md</code></p>
+    </div>
+
+    <!-- Next Steps -->
+    <div class="card">
+      <h2>What's Next?</h2>
+      <p>You just created a personalized AI assistant. Most coaches using AI right now are getting generic responses. <strong>You just made it YOURS.</strong></p>
+      <p>In Lesson 2, you're going to build your first custom skill — a command that does real work with one sentence. Like an SOP that actually runs itself.</p>
+      <a href="#" class="cta-button">Continue to Lesson 2 →</a>
+      <p style="text-align: center; font-size: 0.85rem; color: rgba(15, 42, 30, 0.6); margin-top: 12px;">Or type <code>/agentlify:lesson-2</code> in Qwen Code</p>
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p><strong>Agentlify Qwen Agents Course</strong> — Lesson 1 of 4</p>
+    <p style="margin-top: 8px;">Made with AI by <strong>Jonathan McGuinness</strong></p>
+    <p style="margin-top: 4px;">Want to work 1:1? <a href="https://jonathanmcguinness.com/application">Apply here</a></p>
+  </footer>
+
+</body>
+</html>
