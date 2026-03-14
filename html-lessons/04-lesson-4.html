@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 4: Build Something Real — Agentlify Course</title>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background-color: #F7F3EA;
+      color: #0F2A1E;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 400;
+      line-height: 1.7;
+    }
+    .container { max-width: 800px; margin: 0 auto; padding: 40px 24px; }
+    .header {
+      background-color: #0F2A1E;
+      padding: 50px 24px 40px;
+      text-align: center;
+      position: relative;
+    }
+    .header::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: #C8A24A;
+    }
+    .lesson-badge {
+      display: inline-block;
+      background: #C8A24A;
+      color: #0F2A1E;
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+    }
+    .header h1 {
+      font-family: 'Oswald', sans-serif;
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #F7F3EA;
+      line-height: 1.2;
+      margin-bottom: 12px;
+    }
+    .header-meta {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+    .meta-item {
+      font-size: 0.85rem;
+      color: rgba(247, 243, 234, 0.7);
+    }
+    .meta-item strong { color: #C8A24A; font-weight: 600; }
+    .card {
+      background: #FFFFFF;
+      border: 2px solid #0F2A1E;
+      border-radius: 8px;
+      padding: 36px;
+      margin-bottom: 28px;
+      box-shadow: 4px 4px 0 #0F2A1E;
+    }
+    .card h2 {
+      font-family: 'Oswald', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #0F2A1E;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid #C8A24A;
+    }
+    .card h3 {
+      font-family: 'Oswald', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #0F2A1E;
+      margin: 24px 0 12px;
+    }
+    .card p { font-size: 0.95rem; margin-bottom: 16px; color: #0F2A1E; }
+    .card strong { font-weight: 600; }
+    .card ul, .card ol { padding-left: 20px; margin-bottom: 16px; }
+    .card li { margin-bottom: 8px; font-size: 0.95rem; }
+    .code-block {
+      background: #0F2A1E;
+      color: #F7F3EA;
+      padding: 20px;
+      border-radius: 6px;
+      margin: 20px 0;
+      overflow-x: auto;
+      border-left: 4px solid #C8A24A;
+    }
+    .code-block code {
+      font-family: 'Courier New', monospace;
+      font-size: 0.9rem;
+      color: #C8A24A;
+    }
+    .highlight {
+      background: rgba(200, 162, 74, 0.1);
+      border-left: 4px solid #C8A24A;
+      padding: 16px 20px;
+      margin: 20px 0;
+      border-radius: 0 6px 6px 0;
+    }
+    .highlight p { margin-bottom: 0; font-size: 0.95rem; }
+    .build-options {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      margin: 24px 0;
+    }
+    .build-option {
+      background: #F7F3EA;
+      border: 2px solid #C8A24A;
+      border-radius: 8px;
+      padding: 24px;
+    }
+    .option-number {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: #C8A24A;
+      margin-bottom: 8px;
+    }
+    .option-title {
+      font-family: 'Oswald', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #0F2A1E;
+      margin-bottom: 12px;
+    }
+    .option-desc {
+      font-size: 0.9rem;
+      color: rgba(15, 42, 30, 0.8);
+      line-height: 1.6;
+    }
+    .cta-button {
+      display: inline-block;
+      background: #C8A24A;
+      color: #0F2A1E;
+      font-family: 'Oswald', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-decoration: none;
+      padding: 18px 40px;
+      border-radius: 4px;
+      border: 2px solid #C8A24A;
+      transition: all 0.2s ease;
+      text-align: center;
+      width: 100%;
+      max-width: 500px;
+      margin: 20px auto;
+      display: block;
+    }
+    .cta-button:hover {
+      background: #0F2A1E;
+      color: #C8A24A;
+      transform: translateY(-2px);
+    }
+    .footer {
+      text-align: center;
+      padding: 32px 24px;
+      font-size: 0.85rem;
+      color: rgba(15, 42, 30, 0.5);
+      border-top: 1px solid rgba(15, 42, 30, 0.1);
+      margin-top: 40px;
+    }
+    .footer a { color: #C8A24A; text-decoration: none; }
+    .completion-card {
+      background: #0F2A1E;
+      border: 2px solid #C8A24A;
+      border-radius: 8px;
+      padding: 40px;
+      margin: 32px 0;
+      text-align: center;
+    }
+    .completion-card h3 {
+      font-family: 'Oswald', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #C8A24A;
+      margin-bottom: 20px;
+    }
+    .completion-list {
+      text-align: left;
+      max-width: 500px;
+      margin: 0 auto;
+      color: rgba(247, 243, 234, 0.9);
+    }
+    .completion-list li {
+      margin-bottom: 12px;
+      font-size: 0.95rem;
+    }
+    @media (max-width: 640px) {
+      .container { padding: 24px 16px; }
+      .header { padding: 40px 16px 30px; }
+      .card { padding: 28px 20px; }
+      .header-meta { flex-direction: column; gap: 12px; }
+      .cta-button { padding: 16px 28px; font-size: 0.95rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <span class="lesson-badge">Lesson 4 of 4 — Finale</span>
+    <h1>Build Something Real</h1>
+    <div class="header-meta">
+      <div class="meta-item"><strong>~12 minutes</strong></div>
+      <div class="meta-item"><strong>Goal:</strong> Build a real web page</div>
+      <div class="meta-item"><strong>Win:</strong> Something you can SEE</div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <div class="container">
+
+    <!-- The Callback -->
+    <div class="card">
+      <h2>Remember Your Dream?</h2>
+      <p>Remember in Lesson 1 when I asked you: "If this AI assistant could do ONE amazing thing for your coaching business, what would it be?"</p>
+      <p><strong>We're coming back to that right now.</strong></p>
+      <p>Not a text file. Not a summary. <strong>Something you can actually SEE in your browser.</strong></p>
+      <p>I'm talking a real, professional web page — built from scratch in seconds, deeply personalized to your coaching business. Like you hired a designer and a copywriter and they both already knew everything about you.</p>
+    </div>
+
+    <!-- Build Options -->
+    <div class="card">
+      <h2>Choose What to Build</h2>
+      <p>Based on everything you've told me, here are 3 things I can build you right now:</p>
+      
+      <div class="build-options">
+        <div class="build-option">
+          <div class="option-number">Option 1</div>
+          <div class="option-title">Lead Magnet Landing Page</div>
+          <div class="option-desc">A page that captures leads for your coaching business. Headline, value proposition, what they'll get, opt-in CTA. Designed to convert.</div>
+        </div>
+        
+        <div class="build-option">
+          <div class="option-number">Option 2</div>
+          <div class="option-title">Services / Programs Page</div>
+          <div class="option-desc">A page showcasing your coaching services. Hero section, what you offer, who it's for, testimonials, and a "let's talk" CTA.</div>
+        </div>
+        
+        <div class="build-option">
+          <div class="option-number">Option 3</div>
+          <div class="option-title">Niche Research Report</div>
+          <div class="option-desc">A beautifully formatted HTML version of the research from Lesson 3. Turn those raw research files into a professional report you could share.</div>
+        </div>
+      </div>
+      
+      <h3>Run the Command</h3>
+      <p>Open Qwen Code and type:</p>
+      <div class="code-block">
+        <code>/agentlify:lesson-4</code>
+      </div>
+      <p>Qwen will ask you which option to build. Pick one. Then watch it come to life.</p>
+    </div>
+
+    <!-- The Pattern -->
+    <div class="card">
+      <h2>The Whole Pattern</h2>
+      <p>After you see your page, here's the fun part — that page is yours. And you can change ANYTHING just by telling Qwen.</p>
+      <div class="highlight">
+        <p><strong>That's the whole pattern:</strong></p>
+        <ol style="margin-top: 12px; margin-bottom: 0;">
+          <li>Describe what you want.</li>
+          <li>Qwen builds it.</li>
+          <li>Tell it what to change.</li>
+          <li>Done.</li>
+        </ol>
+      </div>
+      <p style="margin-top: 16px;">Landing pages, dashboards, emails, proposals, reports — anything you can describe, Qwen can build. And anything it builds, you can tweak with one sentence.</p>
+    </div>
+
+    <!-- Completion -->
+    <div class="completion-card">
+      <h3>Course Complete — Congrats!</h3>
+      <ul class="completion-list">
+        <li><strong>Lesson 1:</strong> Built your AI assistant (QWEN.md)</li>
+        <li><strong>Lesson 2:</strong> Built your first skill from scratch</li>
+        <li><strong>Lesson 3:</strong> Deployed 3 research agents in parallel</li>
+        <li><strong>Lesson 4:</strong> Built a real web page for your business</li>
+      </ul>
+      <p style="margin-top: 24px; font-size: 0.9rem; opacity: 0.8;">4 lessons. 4 bonuses. ~30 minutes. You're running your coaching business with AI.</p>
+    </div>
+
+    <!-- Final Bonus -->
+    <div class="card" style="background: #0F2A1E; border-color: #C8A24A;">
+      <h2 style="color: #C8A24A; border-bottom-color: rgba(200, 162, 74, 0.4);">Final Bonus: 10 Business Templates</h2>
+      <p style="color: rgba(247, 243, 234, 0.9);">One last gift. <strong>10 copy-paste prompts that each build a complete system for your business.</strong></p>
+      <p style="color: rgba(247, 243, 234, 0.9); margin-top: 16px;"><strong>What's included:</strong></p>
+      <ul style="color: rgba(247, 243, 234, 0.9);">
+        <li>Content Calendar Generator</li>
+        <li>Discovery Call Script</li>
+        <li>Client Welcome Email Sequence</li>
+        <li>Sales Page Generator</li>
+        <li>Email Nurture Sequence</li>
+        <li>Workshop/Webinar Outline</li>
+        <li>Client Check-In Template</li>
+        <li>Testimonial Request Email</li>
+        <li>Programme Curriculum Builder</li>
+        <li>Lead Magnet Creator</li>
+      </ul>
+      <p style="color: rgba(247, 243, 234, 0.9); margin-top: 16px;"><strong>Location:</strong> <code style="color: #C8A24A;">~/.qwen/gifts/coaching-business-templates.md</code></p>
+      <p style="color: rgba(247, 243, 234, 0.9); margin-top: 16px;">Copy any prompt. Paste into Qwen Code. Hit enter. Get a complete system back.</p>
+    </div>
+
+    <!-- What's Next -->
+    <div class="card">
+      <h2>What Now?</h2>
+      <p>You crushed it. Seriously — most coaches have no idea any of this is possible. You just built the whole system.</p>
+      <p><strong>Here's what to do next:</strong></p>
+      <ul>
+        <li>Use your skills daily — they're yours forever</li>
+        <li>Add to your QWEN.md whenever you think of something new</li>
+        <li>Build more skills with the Skill Builder</li>
+        <li>Run the agent workflows quarterly to stay on top of your market</li>
+        <li>Share this course with other coaches who need it</li>
+      </ul>
+      <div class="highlight">
+        <p><strong>You went from generic AI responses to running a personalized AI system.</strong> That's the difference between using AI and owning AI.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p><strong>Agentlify Qwen Agents Course</strong> — Complete!</p>
+    <p style="margin-top: 8px;">Made with AI by <strong>Jonathan McGuinness</strong></p>
+    <p style="margin-top: 4px;">Want to work 1:1? <a href="https://jonathanmcguinness.com/application">Apply here</a></p>
+  </footer>
+
+</body>
+</html>
